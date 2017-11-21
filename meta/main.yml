@@ -1,6 +1,6 @@
 galaxy_info:
   author: WikiVoks
-  description: Jmeter installation
+  description: Jenkins Swarm Slave installation
   company: Wikivoks
 
   # If the issue tracker for your role is not on github, uncomment the

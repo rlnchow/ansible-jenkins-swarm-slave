@@ -1,0 +1,12 @@
+---
+# handlers file for jenkinsslave
+
+- name: systemd daemon-reload
+  command: /bin/systemctl daemon-reload
+  when: ansible_virtualization_type != "docker"
+
+- name: restart swarm client
+  service:
+    name: '{{ jenkinsslave_service_file }}'
+    state: restarted
+  when: ansible_virtualization_type != "docker"

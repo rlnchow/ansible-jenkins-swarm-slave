@@ -1,0 +1,15 @@
+[Unit]
+Description=Jenkins swarm client which joins a master
+
+[Service]
+Type=simple
+User={{ jenkinsslave_local_user }}
+
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/HPE_Security/Fortify_SCA_and_Apps/bin"
+ExecStart=/bin/java -jar {{ jenkinsslave_installation_dir }}/{{ jenkinsslave_name }} -description '{{ jenkinsslave_description }}' -executors {{ jenkinsslave_executors }} -fsroot {{ jenkinsslave_working_dir }} -labels '{{ jenkinsslave_labels }}' -master {{ jenkinsslave_jenkins_master }} -tunnel {{ jenkinsslave_tunnel }} -mode {{ jenkinsslave_mode }} -name {{ ansible_fqdn }} -disableClientsUniqueId -disableSslVerification -deleteExistingClients -username {{ jenkinsslave_jenkins_master_user }} -password '{{ jenkinsslave_jenkins_master_pass }}' -retry {{ jenkinsslave_retries }}
+
+#Environment=HOSTNAME={{ ansible_nodename }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

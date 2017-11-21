@@ -1,0 +1,36 @@
+---
+# tasks file for oracle-java
+
+- name: ensure slave working dir
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ jenkinsslave_local_user }}'
+    group: '{{ jenkinsslave_local_group }}'
+  with_items:
+    - '{{ jenkinsslave_installation_dir }}'
+    - '{{ jenkinsslave_working_dir }}'
+
+- name: download swarm client jar
+  get_url:
+    url: '{{ jenkinsslave_url }}'
+    dest: '{{ jenkinsslave_installation_dir }}/{{ jenkinsslave_name }}'
+    mode: 0755
+
+- name: Ensure configuration
+  template:
+    src: '{{ jenkinsslave_service_template }}'
+    dest: '{{ jenkinsslave_service_path }}/{{ jenkinsslave_service_file }}'
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - systemd daemon-reload
+    - restart swarm client
+
+- name: Ensure service
+  service:
+    name: 'jenkinsslave'
+    state: started
+    enabled: true
+  when: ansible_virtualization_type != "docker"

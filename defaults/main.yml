@@ -1,0 +1,24 @@
+---
+# defaults file for jenkinsslave
+jenkinsslave_installation_dir: /cwt/app/swarm-client
+
+jenkinsslave_local_user: root
+jenkinsslave_local_group: root
+jenkinsslave_version: 3.4
+jenkinsslave_name: 'swarm-client-{{ jenkinsslave_version }}.jar'
+jenkinsslave_url: 'https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/{{ jenkinsslave_version }}/swarm-client-{{ jenkinsslave_version }}.jar'
+jenkinsslave_service_path: /usr/lib/systemd/system
+jenkinsslave_service_file: jenkinsslave.service
+jenkinsslave_service_template: jenkinsslave.service.j2
+
+jenkinsslave_working_dir: /cwt/app/jenkins-slave
+jenkinsslave_description: I am a swarm node
+jenkinsslave_executors: '{{ ansible_processor_vcpus }}'
+jenkinsslave_labels: changeme
+jenkinsslave_jenkins_master: 
+jenkinsslave_tunnel: 
+jenkinsslave_jenkins_master_user: ""
+jenkinsslave_jenkins_master_pass: ""
+jenkinsslave_mode: exclusive
+jenkinsslave_jenkins_name: swarm-node
+jenkinsslave_retries: 5
